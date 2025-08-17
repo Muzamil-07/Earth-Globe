@@ -1,0 +1,579 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, sans-serif;
+  }
+}
+
+/* Glitch Effect Styles */
+.glitch {
+  position: relative;
+  color: white;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  animation: glitch-skew 1s infinite linear alternate-reverse;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -3px 0 #ff0000;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim-1 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -3px 0 #00ffff;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim-2 1s infinite linear alternate-reverse;
+}
+
+/* Main text slight shake */
+@keyframes glitch-skew {
+  0% {
+    transform: skew(0deg);
+  }
+  10% {
+    transform: skew(2deg);
+  }
+  20% {
+    transform: skew(0deg);
+  }
+  30% {
+    transform: skew(1deg);
+  }
+  40% {
+    transform: skew(0deg);
+  }
+  50% {
+    transform: skew(-1deg);
+  }
+  60% {
+    transform: skew(0deg);
+  }
+  70% {
+    transform: skew(1deg);
+  }
+  80% {
+    transform: skew(0deg);
+  }
+  90% {
+    transform: skew(2deg);
+  }
+  100% {
+    transform: skew(0deg);
+  }
+}
+
+@keyframes glitch-anim-1 {
+  0% {
+    clip: rect(132px, 9999px, 142px, 0);
+    transform: skew(0.85deg);
+  }
+  5% {
+    clip: rect(70px, 9999px, 80px, 0);
+    transform: skew(0.4deg);
+  }
+  10% {
+    clip: rect(25px, 9999px, 200px, 0);
+    transform: skew(0.63deg);
+  }
+  15% {
+    clip: rect(90px, 9999px, 105px, 0);
+    transform: skew(0.37deg);
+  }
+  20% {
+    clip: rect(144px, 9999px, 190px, 0);
+    transform: skew(0.7deg);
+  }
+  25% {
+    clip: rect(12px, 9999px, 154px, 0);
+    transform: skew(0.15deg);
+  }
+  30% {
+    clip: rect(63px, 9999px, 84px, 0);
+    transform: skew(0.99deg);
+  }
+  35% {
+    clip: rect(75px, 9999px, 200px, 0);
+    transform: skew(0.32deg);
+  }
+  40% {
+    clip: rect(97px, 9999px, 150px, 0);
+    transform: skew(0.78deg);
+  }
+  45% {
+    clip: rect(40px, 9999px, 130px, 0);
+    transform: skew(0.41deg);
+  }
+  50% {
+    clip: rect(68px, 9999px, 180px, 0);
+    transform: skew(0.65deg);
+  }
+  55% {
+    clip: rect(18px, 9999px, 125px, 0);
+    transform: skew(0.19deg);
+  }
+  60% {
+    clip: rect(121px, 9999px, 140px, 0);
+    transform: skew(0.88deg);
+  }
+  65% {
+    clip: rect(32px, 9999px, 148px, 0);
+    transform: skew(0.23deg);
+  }
+  70% {
+    clip: rect(85px, 9999px, 165px, 0);
+    transform: skew(0.96deg);
+  }
+  75% {
+    clip: rect(38px, 9999px, 190px, 0);
+    transform: skew(0.52deg);
+  }
+  80% {
+    clip: rect(54px, 9999px, 125px, 0);
+    transform: skew(0.81deg);
+  }
+  85% {
+    clip: rect(72px, 9999px, 180px, 0);
+    transform: skew(0.28deg);
+  }
+  90% {
+    clip: rect(46px, 9999px, 160px, 0);
+    transform: skew(0.74deg);
+  }
+  95% {
+    clip: rect(59px, 9999px, 195px, 0);
+    transform: skew(0.46deg);
+  }
+  100% {
+    clip: rect(26px, 9999px, 135px, 0);
+    transform: skew(0.67deg);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip: rect(65px, 9999px, 119px, 0);
+    transform: skew(0.02deg);
+  }
+  5% {
+    clip: rect(29px, 9999px, 26px, 0);
+    transform: skew(0.05deg);
+  }
+  10% {
+    clip: rect(104px, 9999px, 69px, 0);
+    transform: skew(0.03deg);
+  }
+  15% {
+    clip: rect(13px, 9999px, 85px, 0);
+    transform: skew(0.07deg);
+  }
+  20% {
+    clip: rect(76px, 9999px, 107px, 0);
+    transform: skew(0.04deg);
+  }
+  25% {
+    clip: rect(42px, 9999px, 24px, 0);
+    transform: skew(0.09deg);
+  }
+  30% {
+    clip: rect(87px, 9999px, 61px, 0);
+    transform: skew(0.01deg);
+  }
+  35% {
+    clip: rect(18px, 9999px, 95px, 0);
+    transform: skew(0.08deg);
+  }
+  40% {
+    clip: rect(52px, 9999px, 33px, 0);
+    transform: skew(0.06deg);
+  }
+  45% {
+    clip: rect(98px, 9999px, 71px, 0);
+    transform: skew(0.02deg);
+  }
+  50% {
+    clip: rect(35px, 9999px, 116px, 0);
+    transform: skew(0.05deg);
+  }
+  55% {
+    clip: rect(81px, 9999px, 47px, 0);
+    transform: skew(0.03deg);
+  }
+  60% {
+    clip: rect(23px, 9999px, 109px, 0);
+    transform: skew(0.07deg);
+  }
+  65% {
+    clip: rect(67px, 9999px, 12px, 0);
+    transform: skew(0.04deg);
+  }
+  70% {
+    clip: rect(110px, 9999px, 78px, 0);
+    transform: skew(0.09deg);
+  }
+  75% {
+    clip: rect(48px, 9999px, 92px, 0);
+    transform: skew(0.01deg);
+  }
+  80% {
+    clip: rect(14px, 9999px, 54px, 0);
+    transform: skew(0.08deg);
+  }
+  85% {
+    clip: rect(89px, 9999px, 31px, 0);
+    transform: skew(0.06deg);
+  }
+  90% {
+    clip: rect(25px, 9999px, 103px, 0);
+    transform: skew(0.02deg);
+  }
+  95% {
+    clip: rect(73px, 9999px, 43px, 0);
+    transform: skew(0.05deg);
+  }
+  100% {
+    clip: rect(56px, 9999px, 87px, 0);
+    transform: skew(0.03deg);
+  }
+}
+
+/* Custom sliding animations for ServicesNew component */
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(25px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(-25px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideOutUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100px) scale(0.8);
+  }
+}
+
+@keyframes slideOutDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100px) scale(0.8);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-slideOutUp {
+  animation: slideOutUp 0.5s ease-in forwards;
+}
+
+.animate-slideOutDown {
+  animation: slideOutDown 0.5s ease-in forwards;
+}
+
+/* Fade in animation for protocol cards */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Hero Section Positioning Controls */
+/* Main content container positioning */
+.hero-content-container {
+  --translate-y-xs: 10rem;
+  --translate-y-sm: 1rem;
+  --translate-y-md: 0.5rem;
+  --translate-y-lg: 2.2rem;
+  --translate-y-xl: 12.8rem;
+  --margin-top-base: 2.5rem;
+  --margin-top-md: 4.375rem;
+  --padding-bottom-sm: 0;
+  --padding-bottom-base: 6rem;
+  
+  transform: translateY(var(--translate-y-xs));
+  margin-top: var(--margin-top-base);
+  padding-bottom: var(--padding-bottom-base);
+}
+
+/* Responsive breakpoints for hero content positioning */
+@media (min-width: 480px) {
+  .hero-content-container {
+    transform: translateY(var(--translate-y-xs));
+  }
+}
+
+@media (min-width: 640px) {
+  .hero-content-container {
+    transform: translateY(var(--translate-y-sm));
+    padding-bottom: var(--padding-bottom-sm);
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-content-container {
+    transform: translateY(var(--translate-y-md));
+    margin-top: var(--margin-top-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-content-container {
+    transform: translateY(var(--translate-y-lg));
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-content-container {
+    transform: translateY(var(--translate-y-xl));
+  }
+}
+
+
+
+/* CTA buttons section positioning */
+.hero-cta-section {
+  --margin-top-base: 3rem;
+  --margin-top-sm: 0.75rem;
+  --margin-bottom-md: 2rem;
+  
+  margin-top: var(--margin-top-base);
+}
+
+@media (min-width: 640px) {
+  .hero-cta-section {
+    margin-top: var(--margin-top-sm);
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-cta-section {
+    margin-bottom: var(--margin-bottom-md);
+  }
+}
+
+/* Hero animation controls */
+.hero-heading-animation {
+  --transition-duration: 120ms;
+  --transition-easing: cubic-bezier(0.22, 0.61, 0.36, 1);
+  
+  transition: opacity var(--transition-duration) linear, 
+              transform var(--transition-duration) var(--transition-easing);
+}
+
+.hero-button-animation {
+  --transition-duration: 120ms;
+  --transition-easing: cubic-bezier(0.22, 0.61, 0.36, 1);
+  
+  transition: opacity var(--transition-duration) linear, 
+              transform var(--transition-duration) var(--transition-easing);
+}
+
+.hero-cta-animation {
+  --transition-duration-mobile: 300ms;
+  --transition-duration-desktop: 300ms;
+  --transition-easing-mobile: ease-out;
+  --transition-easing-desktop: cubic-bezier(0.22, 0.61, 0.36, 1);
+  
+  transition: opacity var(--transition-duration-mobile) var(--transition-easing-mobile), 
+              transform var(--transition-duration-mobile) var(--transition-easing-mobile);
+}
+
+@media (min-width: 640px) {
+  .hero-cta-animation {
+    transition: opacity var(--transition-duration-desktop) var(--transition-easing-desktop), 
+                transform var(--transition-duration-desktop) var(--transition-easing-desktop);
+  }
+}
+
+/* Utility class for easy customization */
+.hero-custom-spacing {
+  /* Override any of the CSS variables above for custom spacing */
+  /* Example usage:
+  .hero-custom-spacing {
+    --translate-y-xs: 8rem;
+    --translate-y-xl: 3rem;
+    --margin-top-base: 1rem;
+  }
+  */
+}
