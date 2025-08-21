@@ -101,38 +101,39 @@ const EarthGlobe: React.FC = () => {
     };
   }, []);
 
-  // Scroll event listener for camera animation
+  // Internal scroll progress listener for camera animation
   useEffect(() => {
-    const handleScroll = () => {
-      // Simple, direct scroll detection
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-      const windowHeight = window.innerHeight || 800;
-      const scrollThreshold = windowHeight * 0.5; // Start animation at 50% of viewport height
+    const handleScrollProgress = () => {
+      // Read scroll progress from CSS variable set by parent component
+      const scrollProgressVar = getComputedStyle(document.documentElement)
+        .getPropertyValue('--scroll-progress');
       
-      // Calculate progress from 0 to 1 based on scroll position
-      const progress = Math.min(Math.max(scrollTop / scrollThreshold, 0), 1);
+      const progress = scrollProgressVar ? parseFloat(scrollProgressVar) : 0;
       
-      console.log('🔄 SCROLL UPDATE:', { 
+      console.log('🔄 INTERNAL SCROLL UPDATE:', { 
         progress: progress.toFixed(3), 
-        scrollTop, 
-        threshold: scrollThreshold, 
-        windowHeight
+        scrollProgressVar
       });
       
       scrollProgressRef.current = progress;
     };
 
     // Call once on mount to set initial state
-    console.log('🚀 Setting up scroll listener');
-    handleScroll();
+    console.log('🚀 Setting up internal scroll listener');
+    handleScrollProgress();
     
-    // Simple scroll listener
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    console.log('📝 Scroll listener added');
+    // Listen for changes to the CSS variable
+    const observer = new MutationObserver(handleScrollProgress);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['style']
+    });
+    
+    console.log('📝 Internal scroll listener added');
     
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      console.log('🗑️ Scroll listener removed');
+      observer.disconnect();
+      console.log('🗑️ Internal scroll listener removed');
     };
   }, []);
 
@@ -272,7 +273,7 @@ const EarthGlobe: React.FC = () => {
     const earthGroup = new THREE.Group();
 
     // Adjust Y position based on screen size
-    let earthYPosition = -0.3; // Default for desktop
+    let earthYPosition = 0; // Default for desktop
     if (isSmallMobile) {
       earthYPosition = 0.00; // Move up for small mobile
     } else if (isMobile) {
@@ -284,7 +285,7 @@ const EarthGlobe: React.FC = () => {
     earthGroup.position.y = earthYPosition;
 
     // Start with full scale - no pop-out animation
-    earthGroup.scale.setScalar(1.0);
+    earthGroup.scale.setScalar(0.9);
 
     earthGroupRef.current = earthGroup;
     scene.add(earthGroup);
@@ -1417,7 +1418,12 @@ const generateShortHoverTargets = (hoverLatLon: LatLon): LatLon[] => {
 
       hoverTargets.forEach((target, index) => {
         const targetPos = latLonToVector3(target.lat, target.lon, earthRadius);
-        const delay = index * 100; // Much faster staggered appearance for hover effect
+        let delay;
+        if(index < 20){
+           delay = 0; // First 20 lines appear immediately
+        } else {
+          delay = (index - 20) * 50; // Lines after 20 have staggered delay (reduced from 100 to 50 for faster appearance)
+        }
         const connection = createConnectionLine(surfacePoint, targetPos, delay);
         connectionsRef.current.push(connection);
       });
@@ -1466,7 +1472,7 @@ const generateShortHoverTargets = (hoverLatLon: LatLon): LatLon[] => {
       const elapsed = currentTime - conn.startTime;
 
       if (!conn.emergenceComplete && elapsed > 0) {
-        const emergenceProgress = Math.min(elapsed / 3000, 1); // Slower emergence for hover lines
+        const emergenceProgress = Math.min(elapsed / 2000, 1); // Slower emergence for hover lines
 
         const visiblePoints = Math.floor(conn.points.length * emergenceProgress);
         if (visiblePoints > 1) {
@@ -1491,7 +1497,7 @@ const generateShortHoverTargets = (hoverLatLon: LatLon): LatLon[] => {
       }
 
       if (conn.emergenceComplete) {
-        const travelElapsed = elapsed - 3000;
+        const travelElapsed = elapsed - 2000;
 
         conn.lightDots.forEach((dot) => {
           const adjustedProgress = ((travelElapsed % conn.duration) / conn.duration + dot.offset) % 1;
