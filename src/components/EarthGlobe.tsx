@@ -678,37 +678,9 @@ const EarthGlobe: React.FC = () => {
   };
 
   const createAtmosphere = (): void => {
-    // Reduce atmosphere geometry complexity on mobile
-    const segments = isSmallMobile ? 24 : isMobile ? 32 : 64;
-    const earthRadius = getEarthRadius();
-    const geometry = new THREE.SphereGeometry(earthRadius + 0.02, segments, segments);
-    const material = new THREE.ShaderMaterial({
-      uniforms: {
-        time: { value: 1.0 }
-      },
-      vertexShader: `
-        varying vec3 vNormal;
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform float time;
-        varying vec3 vNormal;
-        void main() {
-          float intensity = pow(0.5 - dot(vNormal, vec3(0, 0, 1.0)), 2.0);
-          gl_FragColor = vec4(0.3, 0.6, 1.0, 1.0) * intensity;
-        }
-      `,
-      side: THREE.BackSide,
-      blending: THREE.AdditiveBlending,
-      transparent: true
-    });
-
-    const atmosphere = new THREE.Mesh(geometry, material);
-    atmosphereRef.current = atmosphere;
-    earthGroupRef.current!.add(atmosphere);
+    // Atmosphere disabled to remove blue outline effect
+    // The atmosphere was creating a blue glow around Earth's edge that appeared during scroll animation
+    atmosphereRef.current = null;
   };
 
   const latLonToVector3 = (lat: number, lon: number, radius?: number): THREE.Vector3 => {
@@ -1638,11 +1610,8 @@ const generateShortHoverTargets = (hoverLatLon: LatLon): LatLon[] => {
             (!isMobile && !isTablet && !isSmallMobile && newRadius !== 1.4);
 
           if (shouldRecreate) {
-            // Remove old Earth and atmosphere
+            // Remove old Earth
             earthGroupRef.current.remove(earthRef.current);
-            if (atmosphereRef.current) {
-              earthGroupRef.current.remove(atmosphereRef.current);
-            }
 
             // Recreate with new radius
             createEarth();
